@@ -2,6 +2,7 @@
 import { FormEvent } from "react";
 import axios from "axios";
 import { useState } from "react";
+import Button from "@/components/Button";
 
 export default function Home() {
   const [response, setResponse] = useState<string | null>(null);
@@ -37,17 +38,17 @@ export default function Home() {
   }
 
   return (
-    <div className="flex-col items-center justify-center px-5 py-5 bg-slate-400 min-h-screen">
-      <p className="p-5">Upload things here</p>
-      <form onSubmit={onSubmit} className="p-5">
-        <input type="text" name='textData' />
-        <button className=" m-5">Upload</button>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 p-5 ">
+      <h1 className="text-3xl font-bold text-gray-200 mb-5">Upload Things Here</h1>
+      <form onSubmit={onSubmit} className="flex flex-col items-center w-full max-w-md py-3" >
+        <input type="text" name='textData' className="w-full p-2 mb-2 border border-gray-300 rounded" />
+        <Button label='Upload' onClick={()=>{}}  ></Button>
       </form>
-      {response && <p>Response: {response}!</p>}
-      {responseCount > 0 && <p>Responses sent: {responseCount}</p>}
-      <button  className="p-5" onClick={getData}>GetThings</button>
-      {things && <p>The things: {things}!</p>}
-      {getCount > 0 && <p>Responses received: {getCount}</p>}
+      {response && <p className="mt-5 text-green-600" >Response: {response}!</p>}
+      {responseCount > 0 && <p className="mt-2 text-gray-500 pb-3" >Responses sent: {responseCount}</p>}
+      <Button onClick={getData} label='Get Things'></Button>
+      {things && <p className="mt-5 text-green-600" >The things: {things}!</p>}
+      {getCount > 0 && <p className="mt-2 text-gray-500 pb-3" >Responses received: {getCount}</p>}
     </div>
   );
 }
