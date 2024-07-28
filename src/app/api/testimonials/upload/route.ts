@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
+import Testimonial from '@/models/Testimonail'
+import {dbConnect} from '@/lib/db'
 
-
-let response: Record<string, any> = {};
 
 export async function POST(req: Request) {
   const formData = await req.formData();
@@ -14,20 +13,24 @@ export async function POST(req: Request) {
     })
   }
 
-  response.textData = textData;
+  await dbConnect();
 
-  const filePath = 'src/data/data.txt'
-  fs.appendFileSync(filePath, `${textData},\n`, {flag: 'a'});
+  const paragraph = new Testimonial({
+    paragraph: textData
+  });
+  
+  paragraph.save()
+    .then(() => console.log('Data saved'))
+    .catch((err: Error) => console.log('Error saving:', err));
 
   return NextResponse.json({
     message: "Success"
   })
 }
 
-export function GET(){
-  const data = fs.readFileSync('src/data/data.txt', 'utf-8');
-  const dataArray = data.trim().split(',').filter(Boolean);
-  const recentResponse = dataArray[dataArray.length - 1].trim();
+export async function GET(){
+  await dbConnect();
+  const recentResponse = await Testimonial.find().sort({createdAt: -1}).limit(1);
   return NextResponse.json({
       data: recentResponse
   });

@@ -29,7 +29,7 @@ export default function Home() {
   async function getData(){
     try{
       const response = await axios.get("/api/testimonials/upload");
-      setThings(response.data.data);
+      setThings(response.data.data[0].paragraph);
       setgetCount(getCount + 1);
       
     } catch (error: any) {
@@ -47,7 +47,7 @@ export default function Home() {
       {response && <p className="mt-5 text-green-600" >Response: {response}!</p>}
       {responseCount > 0 && <p className="mt-2 text-gray-500 pb-3" >Responses sent: {responseCount}</p>}
       <Button onClick={getData} label='Get Things'></Button>
-      {things && <p className="mt-5 text-green-600" >The things: {things}!</p>}
+      {things && <p className="mt-5 text-gray-200" >Recent response "{things}"</p>}
       {getCount > 0 && <p className="mt-2 text-gray-500 pb-3" >Responses received: {getCount}</p>}
     </div>
   );

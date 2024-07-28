@@ -9,6 +9,8 @@ export default function page() {
     
     async function getData(){
         const response = await axios.get("/api/testimonials/view");
+        console.log(response.data.data);
+        
         setData(!data);
         setResponse(response.data.data);
     }
@@ -21,7 +23,7 @@ export default function page() {
     {data && (response ? (
         <ul className="w-full max-w-md" >
             {response.map((data, index) => (
-                <li key={index} className="p-2 mb-2 border border-gray-300 rounded">{data}</li>
+                <li key={index} className="p-2 mb-2 border border-gray-300 rounded text-gray-200">{data}</li>
             ))}
         </ul>
     ) : (
