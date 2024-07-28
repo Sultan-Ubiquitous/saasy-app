@@ -16,8 +16,8 @@ export async function POST(req: Request) {
 
   response.textData = textData;
 
-  const filePath = 'src/data/data.json'
-  fs.writeFileSync(filePath, JSON.stringify(response))
+  const filePath = 'src/data/data.txt'
+  fs.appendFileSync(filePath, `${textData},\n`, {flag: 'a'});
 
   return NextResponse.json({
     message: "Success"
@@ -25,7 +25,10 @@ export async function POST(req: Request) {
 }
 
 export function GET(){
+  const data = fs.readFileSync('src/data/data.txt', 'utf-8');
+  const dataArray = data.trim().split(',').filter(Boolean);
+  const recentResponse = dataArray[dataArray.length - 1].trim();
   return NextResponse.json({
-    message: response
+      data: recentResponse
   });
 }
